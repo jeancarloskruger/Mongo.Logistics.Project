@@ -1,6 +1,7 @@
 ﻿using Mongo.Logistics.Project.API.DAL.Configuration;
 using Mongo.Logistics.Project.API.Entities;
 using MongoDB.Driver;
+using MongoDB.Driver.GeoJsonObjectModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,7 +29,12 @@ namespace Mongo.Logistics.Project.API.DAL
 
         public async Task<ICollection<City>> GetNearbyCitiesSortedByNearestFirst(double longitude, double latitude, int count)
         {
-            return await _collection.Find(Builders<City>.Filter.NearSphere(doc => doc.Position, longitude, latitude)).Limit(count).ToListAsync();
+            var filterPoint = GeoJson.Point(new GeoJson2DCoordinates(longitude, latitude));
+
+            var filter = new FilterDefinitionBuilder<City>()
+                         .NearSphere(n => n.Position, filterPoint, minDistance: 1);
+
+            return await _collection.Find(filter).Limit(count).ToListAsync();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mongo.Logistics.Project.API.Dtos;
+using Mongo.Logistics.Project.API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,135 +14,96 @@ namespace Mongo.Logistics.Project.API.Controllers
     [Route("cargo")]
     public class CargoController : ControllerBase
     {
+        private readonly CargoService cargoService;
 
-        private readonly ILogger<CargoController> _logger;
-
-        public CargoController(ILogger<CargoController> logger)
+        public CargoController(CargoService cargoService)
         {
-            _logger = logger;
+            this.cargoService = cargoService;
         }
 
         [HttpPost("{location}/to/{destination}")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IActionResult))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> AddNewCargoLocation(string location, string destination)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CargoDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddNewCargo(string location, string destination)
         {
-            return true;
-
-            //error if neither  location nor destination exist as cities.Set status to "in progress"
-            //TODO: return 404 if null
-            //. Error if city does not exist.
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+            var objDtos = await cargoService.AddNewCargo(location, destination);
+            if (objDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
 
         [HttpPut("{id}/delivered")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IActionResult))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> UpdateCargoToDelivered(string id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CargoDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCargoToDelivered(string id)
         {
-            return true;
-
-
-            //TODO: return 404 if null
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+            var objDtos = await cargoService.UpdateCargoToDelivered(id);
+            if (objDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
 
 
         [HttpPut("{id}/courier/{courier}")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IActionResult))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> UpdateCourierOnloaded(string id, string courier)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CargoDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCourierOnloaded(string id, string courier)
         {
-            return true;
-
-
-            //TODO: return 404 if null
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+            var objDtos = await cargoService.UpdateCourierOnloaded(id, courier);
+            if (objDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
 
         [HttpDelete("{id}/courier")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IActionResult))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> RemoveCourier(string id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CargoDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveCourier(string id)
         {
-            return true;
-
-
-            //TODO: return 404 if null
-            //. Error if city does not exist.
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+            var objDtos = await cargoService.RemoveCourier(id);
+            if (objDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
 
         [HttpPut("{id}/location/{location}")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IActionResult))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> UpdateLocation(string id, string location)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CargoDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateLocation(string id, string location)
         {
-            return true;
-
-
-            //TODO: return 404 if null
-            //. Error if city does not exist.
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+            var objDtos = await cargoService.UpdateLocation(id, location);
+            if (objDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
 
         [HttpGet("location/{location}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PlaneDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CargoDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<PlaneDto> GetByLocation(string location)
+        public async Task<IActionResult> GetAllByLocation(string location)
         {
-            return new PlaneDto
+            var objDtos = await cargoService.GetAllInProgressByLocation(location);
+            if (objDtos == null)
             {
-                Callsign = "CARGO14",
-                CurrentLocation = new double[] { 10.1797, 36.8028 },
-                Heading = 0,
-                Landed = "",
-            };
-
-            //TODO: return 404 if null
-            //Thing thingFromDB = await GetThingFromDBAsync();
-            //if (thingFromDB == null)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound); // This returns HTTP 404
-            //}
-            //// Process thingFromDB, blah blah blah
-            //return thing;
+                return NotFound();
+            }
+            return Ok(objDtos);
         }
     }
 }

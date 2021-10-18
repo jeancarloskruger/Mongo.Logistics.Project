@@ -16,6 +16,9 @@ namespace Mongo.Logistics.Project.API
             CreateMap<PlaneDto, Plane>()
                 .ForMember(dst => dst.Id, src => src.MapFrom(a => a.Callsign))
                 .ReverseMap();
+
+            CreateMap<CargoDto, Cargo>()
+             .ReverseMap();
         }
     }
 }

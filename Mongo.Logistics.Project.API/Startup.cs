@@ -48,6 +48,9 @@ namespace Mongo.Logistics.Project.API
             services.AddScoped<PlaneService>();
             services.AddScoped<PlaneRepository>();
 
+            services.AddScoped<CargoService>();
+            services.AddScoped<CargoRepository>();
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperConfiguration());
