@@ -3,6 +3,7 @@ using Mongo.Logistics.Project.API.DAL;
 using Mongo.Logistics.Project.API.Dtos;
 using Mongo.Logistics.Project.API.Entities;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -78,14 +79,12 @@ namespace Mongo.Logistics.Project.API.Services
                 return null;
             }
 
-            plane.CurrentLocation = location.GetLocation();
-            plane.Heading = heading;
-            plane.Landed = city;
-
+        
             var update = Builders<Plane>.Update
-                .Set(s => s.Heading, plane.Heading)
-                .Set(s => s.CurrentLocation, plane.CurrentLocation)
-                .Set(s => s.Landed, plane.Landed);
+                .Set(s => s.Heading, heading)
+                .Set(s => s.CurrentLocation, location.GetLocation())
+                .Set(s => s.Landed, city)
+                .Set(s => s.LandedDate, DateTime.Now);
 
             return mapper.Map<PlaneDto>(await planeRepository.UpdadeOneAsync(plane.Id, update));
 

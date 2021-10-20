@@ -1,19 +1,13 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Mongo.Logistics.Project.API.DAL;
 using Mongo.Logistics.Project.API.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mongo.Logistics.Project.API
@@ -51,6 +45,10 @@ namespace Mongo.Logistics.Project.API
             services.AddScoped<CargoService>();
             services.AddScoped<CargoRepository>();
 
+            services.AddSingleton<ChangeStreamService>();
+
+            services.AddScoped<MetricsService>();
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperConfiguration());
@@ -59,7 +57,7 @@ namespace Mongo.Logistics.Project.API
             services.AddSingleton(mapper);
 
             services.AddControllers();
-       
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mongo.Logistics.Project.API", Version = "v1" });
@@ -85,6 +83,9 @@ namespace Mongo.Logistics.Project.API
                 options.AllowAnyMethod();
             });
             app.UseAuthorization();
+
+            Task.Run(() => app.ApplicationServices.GetService<ChangeStreamService>().MonitoringPlaneLanded());
+            Task.Run(() => app.ApplicationServices.GetService<ChangeStreamService>().MonitoringPlaneMaintance());
 
             app.UseEndpoints(endpoints =>
             {

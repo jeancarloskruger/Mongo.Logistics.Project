@@ -40,6 +40,5 @@ namespace Mongo.Logistics.Project.API.DAL
             var filter = Builders<Plane>.Filter.Eq(doc => doc.Id, id);
             return await _collection.FindOneAndUpdateAsync(filter, update, defaultOptions);
         }
-
     }
 }

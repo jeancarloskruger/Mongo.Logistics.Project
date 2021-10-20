@@ -3,7 +3,6 @@ using Mongo.Logistics.Project.API.DAL.Configuration;
 using Mongo.Logistics.Project.API.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

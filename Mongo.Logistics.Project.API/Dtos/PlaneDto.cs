@@ -18,5 +18,8 @@ namespace Mongo.Logistics.Project.API.Dtos
 
         [JsonProperty("route")]
         public string[] Route { get; set; }
+
+        [JsonProperty("maintenanceRequired")]
+        public bool MaintenanceRequired { get; set; }
     }
 }

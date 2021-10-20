@@ -1,7 +1,6 @@
 ﻿using Mongo.Logistics.Project.API.DAL;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
 
 namespace Mongo.Logistics.Project.API.Entities
 {
@@ -23,5 +22,12 @@ namespace Mongo.Logistics.Project.API.Entities
 
         [BsonElement("landed")]
         public string Landed { get; set; }
+
+        [BsonElement("maintenanceRequired")]
+        public bool MaintenanceRequired { get; set; }
+
+        [BsonElement("landedDate")]
+        public DateTime LandedDate { get; set; }
+
     }
 }

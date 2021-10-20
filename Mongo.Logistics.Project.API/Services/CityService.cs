@@ -31,7 +31,7 @@ namespace Mongo.Logistics.Project.API.Services
             return mapper.Map<CityDto>(await cityRepository.GetByIdAsync(id));
         }
 
-        public async Task<List<CityDto>> GetByIdNearbyCitiesSortedByNearestFirst(string id, int count)
+        public async Task<dynamic> GetByIdNearbyCitiesSortedByNearestFirst(string id, int count)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -45,7 +45,10 @@ namespace Mongo.Logistics.Project.API.Services
                 return null;
             }
 
-            return mapper.Map<List<CityDto>>(await cityRepository.GetNearbyCitiesSortedByNearestFirst(city.Location[0], city.Location[1], count));
+            return new
+            {
+                neighbors = mapper.Map<List<CityDto>>(await cityRepository.GetNearbyCitiesSortedByNearestFirst(city.Location[0], city.Location[1], count))
+            };
         }
     }
 }

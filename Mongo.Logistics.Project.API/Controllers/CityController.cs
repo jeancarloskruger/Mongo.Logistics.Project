@@ -48,13 +48,13 @@ namespace Mongo.Logistics.Project.API.Controllers
         }
 
         [HttpGet("{id}/neighbors/{count}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CityDto>))]
+
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetByIdNearbyCitiesSortedByNearestFirst(string id, int count)
         {
             var objDtos = await cityService.GetByIdNearbyCitiesSortedByNearestFirst(id, count);
-            if (objDtos == null || objDtos.Count == 0)
+            if (objDtos == null)
             {
                 return NotFound();
             }

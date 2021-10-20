@@ -39,7 +39,7 @@ namespace Mongo.Logistics.Project.API.Services
             }
 
             cargoExist.Status = CargoStatusConst.Delivered;
-            cargoExist.Received = DateTime.UtcNow;
+            cargoExist.Received = DateTime.Now;
 
             var update = Builders<Cargo>.Update
                 .Set(s => s.Status, cargoExist.Status)
